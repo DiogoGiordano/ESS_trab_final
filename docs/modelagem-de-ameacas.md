@@ -1,6 +1,6 @@
 ## Identificação do sistema:
 
--  **Nome do sistema**: ?
+-  **Nome do sistema**: App de transporte de passageiros
 	
 - **Integrantes do grupo**: Diogo Montanha, Ernesto, Micael e Regis
 	
