@@ -1,8 +1,8 @@
-# 3. Usuários, ativos e pontos de interação
+# Usuários, ativos e pontos de interação
 
 Nesta seção são identificados os principais usuários do sistema, os ativos considerados mais importantes para a segurança da aplicação e os pontos de interação entre os componentes do sistema.
 
-## 3.1 Usuários do sistema
+## Usuários do sistema
 
 O aplicativo possui três perfis principais de usuários, cada um com diferentes permissões e responsabilidades.
 
@@ -35,7 +35,7 @@ O aplicativo possui três perfis principais de usuários, cada um com diferentes
 
 ---
 
-## 3.2 Ativos importantes
+## Ativos importantes
 
 Os ativos do sistema representam informações e recursos que podem causar prejuízos financeiros, operacionais ou de privacidade caso sejam acessados, alterados, destruídos ou indisponibilizados indevidamente.
 
@@ -56,7 +56,7 @@ Os ativos considerados mais críticos são as credenciais de acesso, os dados pe
 
 ---
 
-## 3.3 Pontos de interação
+## Pontos de interação
 
 O sistema realiza diversas interações entre usuários, componentes internos e serviços externos.
 
@@ -88,7 +88,7 @@ Esses pontos de interação representam superfícies importantes para análise d
 
 Nesta seção são identificados os principais usuários do sistema, os ativos considerados mais importantes para a segurança da aplicação e os pontos de interação entre os componentes do sistema.
 
-## 3.1 Usuários do sistema
+## Usuários do sistema
 
 O aplicativo possui três perfis principais de usuários, cada um com diferentes permissões e responsabilidades.
 
@@ -121,7 +121,7 @@ O aplicativo possui três perfis principais de usuários, cada um com diferentes
 
 ---
 
-## 3.2 Ativos importantes
+## Ativos importantes
 
 Os ativos do sistema representam informações e recursos que podem causar prejuízos financeiros, operacionais ou de privacidade caso sejam acessados, alterados, destruídos ou indisponibilizados indevidamente.
 
@@ -142,7 +142,7 @@ Os ativos considerados mais críticos são as credenciais de acesso, os dados pe
 
 ---
 
-## 3.3 Pontos de interação
+## Pontos de interação
 
 O sistema realiza diversas interações entre usuários, componentes internos e serviços externos.
 
