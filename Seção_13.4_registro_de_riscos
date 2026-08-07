@@ -1,0 +1,14 @@
+## 13.4 Registro de riscos
+
+Cada risco apresentado foi elaborado a partir das ameaças identificadas durante a modelagem STRIDE realizada na Etapa 1. Para cada risco foram definidos sua origem, o evento de risco, a vulnerabilidade associada, a probabilidade, o impacto, a pontuação e o respectivo nível de risco.
+
+| ID | Origem STRIDE | Evento de risco | Vulnerabilidade ou condição | Probabilidade | Impacto | Pontuação | Nível |
+|:--:|---------------|-----------------|-----------------------------|:-------------:|:-------:|:----------:|:------:|
+| R01 | Spoofing | Um atacante acessa a conta de um passageiro ou motorista e realiza operações em seu nome. | Credenciais comprometidas e ausência de autenticação multifator. | 3 | 4 | 12 | Crítico |
+| R02 | Spoofing | Cadastro de motorista utilizando documentos falsificados. | Validação insuficiente dos documentos enviados durante o cadastro. | 2 | 4 | 8 | Alto |
+| R03 | Tampering | Alteração do valor da corrida antes da confirmação do pagamento. | Falhas na validação das informações transmitidas entre cliente e servidor. | 2 | 4 | 8 | Alto |
+| R04 | Information Disclosure | Vazamento de dados pessoais de passageiros e motoristas. | Controles inadequados de acesso ou falhas na proteção do banco de dados. | 3 | 4 | 12 | Crítico |
+| R05 | Information Disclosure | Exposição da localização em tempo real dos usuários. | Comunicação insegura ou acesso indevido às informações de localização. | 3 | 4 | 12 | Crítico |
+| R06 | Denial of Service | Indisponibilidade do aplicativo devido a ataque de negação de serviço. | Ausência de mecanismos de mitigação contra sobrecarga do servidor da aplicação. | 3 | 3 | 9 | Alto |
+| R07 | Elevation of Privilege | Usuário obtém privilégios administrativos sem autorização. | Falhas no controle de permissões e autenticação. | 2 | 4 | 8 | Alto |
+| R08 | Repudiation | Passageiro ou motorista nega ter realizado determinada operação. | Registros de auditoria insuficientes ou inexistentes. | 2 | 3 | 6 | Médio |
