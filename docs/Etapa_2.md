@@ -71,7 +71,8 @@ Cada ameaça relevante da Etapa 1 originou pelo menos um risco.
 | R10 | T10 — Denial of Service | Um ataque DDoS torna os servidores do Move Fácil indisponíveis. | Exposição dos servidores e ausência de mecanismos suficientes de proteção contra sobrecarga. | 3 | 4 | 12 | Crítico |
 | R11 | T11 — Denial of Service | A API de mapas sofre sobrecarga e deixa de responder corretamente. | Dependência de serviço externo e ausência de mecanismos adequados de contingência. | 3 | 3 | 9 | Alto |
 | R12 | T12 — Elevation of Privilege | Um usuário comum obtém privilégios administrativos e passa a controlar funções restritas. | Falhas no controle de acesso e na validação das permissões. | 2 | 4 | 8 | Alto |
-| R13 | T13 — Elevation of Privilege | Um passageiro modifica seu perfil para obter funcionalidades exclusivas de motorista. | Validação insuficiente do perfil e das permissões associadas ao usuário. | 3 | 3 | 9 | Alto |
+| R13 | T13 — Tampering | Dois motoristas são associados à mesma corrida devido a uma falha de concorrência ou validação do estado da viagem. | 2 | 3 | 6 | Médio |
+| R14 | T14 — Elevation of Privilege | Um passageiro explora uma falha de autorização e obtém acesso a funcionalidades exclusivas de motorista. | 3 | 3 | 9 | Alto |
 
 ### 13.4.1 Relação entre ameaça, vulnerabilidade, ataque e risco
 
