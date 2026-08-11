@@ -350,6 +350,73 @@ A modelagem de ameaças foi realizada utilizando o modelo **STRIDE**, consideran
 
 * **Elevation of Privilege**
 
+## CA07 — Aceitação simultânea da mesma corrida por dois motoristas
+
+**Ator:** Motoristas maliciosos
+
+**Objetivo:** Fazer com que dois motoristas sejam associados à mesma corrida devido a uma falha no controle de concorrência ou na validação do status da viagem.
+
+### Condições
+
+* Dois ou mais motoristas recebem a mesma solicitação de corrida.
+* Ausência ou falha no controle de concorrência durante a aceitação da corrida.
+* O sistema não valida corretamente se a corrida já foi aceita por outro motorista.
+
+### Fluxo
+
+1. O passageiro solicita uma corrida.
+2. A solicitação é disponibilizada para os motoristas.
+3. Dois motoristas enviam simultaneamente uma requisição para aceitar a corrida.
+4. O sistema processa as duas requisições sem verificar corretamente o estado atualizado da corrida.
+5. A corrida é associada aos dois motoristas.
+6. Os dois motoristas passam a visualizar ou executar a mesma corrida.
+
+### Impacto
+
+* Inconsistência nos dados da corrida.
+* Conflitos entre passageiros e motoristas.
+* Possibilidade de cobrança ou registro incorreto da viagem.
+* Comprometimento da integridade do histórico de corridas.
+
+### STRIDE
+
+* **Tampering**
+
+---
+
+## CA08 — Acesso indevido à corrida de outro passageiro
+
+**Ator:** Usuário malicioso
+
+**Objetivo:** Acessar informações de uma corrida pertencente a outro passageiro devido a uma falha na associação ou autorização das viagens.
+
+### Condições
+
+* Falha na validação da autorização para acesso às corridas.
+* Identificador da corrida pode ser utilizado diretamente nas requisições.
+* O sistema não verifica corretamente se a corrida pertence ao usuário autenticado.
+
+### Fluxo
+
+1. O usuário acessa sua conta normalmente.
+2. Identifica ou obtém o identificador de uma corrida pertencente a outro passageiro.
+3. Envia uma requisição à API utilizando o identificador da corrida.
+4. O sistema não verifica corretamente a associação entre a corrida e o usuário autenticado.
+5. O sistema retorna informações da corrida pertencente a outro passageiro.
+6. O usuário obtém dados como origem, destino, horário ou status da viagem.
+
+### Impacto
+
+* Violação da privacidade dos passageiros.
+* Exposição de informações sobre viagens.
+* Possível exposição de dados de localização.
+* Comprometimento da confidencialidade das informações.
+
+### STRIDE
+
+* **Information Disclosure**
+
+
 # Considerações finais
 
 A análise realizada permitiu identificar os principais ativos, ameaças e casos de abuso relacionados ao aplicativo de transporte de passageiros. Os ativos mais críticos identificados foram as contas dos usuários, os dados pessoais, a localização em tempo real, as informações financeiras e o banco de dados, uma vez que sua exposição, alteração ou indisponibilidade pode causar prejuízos financeiros, violação da privacidade e comprometer a segurança dos usuários.
