@@ -306,34 +306,23 @@ Os seis riscos críticos recebem prioridade máxima. Entre os riscos altos, fora
 
 ## 14.1 Estratégias de tratamento
 
-As estratégias possíveis são:
+As estratégias de tratamento foram definidas considerando a probabilidade, o impacto e a viabilidade de implementação de controles de segurança para o aplicativo de transporte de passageiros.
 
-| Estratégia | Descrição |
-|---|---|
-| Evitar | Eliminar a atividade ou condição que dá origem ao risco. |
-| Reduzir | Implementar medidas para diminuir sua probabilidade ou seu impacto. |
-| Compartilhar | Atribuir parte da operação ou das consequências a um terceiro. |
-| Aceitar | Reconhecer e manter conscientemente o risco, com justificativa e acompanhamento. |
+| ID | Risco | Estratégia | Justificativa |
+| :-: | -------------------------------------------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| R01 | Acesso indevido à conta de passageiro ou motorista | Reduzir | Implementar autenticação multifator, políticas de senhas fortes, monitoramento de acessos e detecção de logins suspeitos reduz a probabilidade de comprometimento das contas. |
+| R02 | Cadastro de motorista utilizando documentos falsificados | Reduzir | Adotar validação automática de documentos, verificação de identidade e análise manual em casos suspeitos reduz a possibilidade de fraudes no cadastro. |
+| R03 | Alteração do valor da corrida | Reduzir | Validar os valores exclusivamente no servidor, utilizar comunicação segura e verificar a integridade das requisições reduz o risco de manipulação dos dados. |
+| R04 | Vazamento de dados pessoais | Reduzir | Utilizar criptografia, controle de acesso, registros de auditoria e proteção do banco de dados reduz a probabilidade de exposição das informações. |
+| R05 | Exposição da localização em tempo real | Reduzir | Proteger a comunicação com criptografia, restringir o acesso às informações de localização e limitar sua retenção reduz o risco de exposição dos usuários. |
+| R06 | Indisponibilidade do aplicativo (DoS) | Reduzir | Implementar mecanismos de proteção contra ataques de negação de serviço, balanceamento de carga e monitoramento contínuo contribui para aumentar a disponibilidade da plataforma. |
+| R07 | Obtenção de privilégios administrativos | Reduzir | Aplicar controle de acesso baseado em papéis, revisão periódica de permissões e autenticação reforçada reduz o risco de elevação indevida de privilégios. |
+| R08 | Negação de operações realizadas | Reduzir | Implementar registros de auditoria, armazenamento seguro de logs e rastreabilidade das operações permite comprovar as ações realizadas pelos usuários. |
 
-Para o Move Fácil, a estratégia predominante será **Reduzir**, pois os riscos podem ser tratados por controles técnicos, administrativos e operacionais.
+Neste trabalho, não foi adotada a estratégia de **Evitar**, pois os riscos estão associados a funcionalidades essenciais do aplicativo. Também não foi utilizada a estratégia de **Compartilhar**, uma vez que a responsabilidade pela proteção das informações permanece com a plataforma, mesmo quando existem serviços externos, como APIs de mapas e gateways de pagamento.
 
-| Risco | Estratégia | Justificativa |
-|---|---|---|
-| R01 | Reduzir | Validar identidade e documentos dos motoristas. |
-| R02 | Reduzir | Reforçar autenticação e proteção das contas. |
-| R03 | Reduzir | Validar o cálculo da tarifa no servidor. |
-| R04 | Reduzir | Restringir alterações no histórico e proteger registros. |
-| R05 | Reduzir | Manter registros confiáveis das solicitações e viagens. |
-| R06 | Reduzir | Registrar autoria e data das avaliações. |
-| R07 | Reduzir | Restringir acesso ao banco e proteger dados pessoais. |
-| R08 | Reduzir | Restringir acesso às informações de localização. |
-| R09 | Reduzir | Proteger informações relacionadas aos pagamentos. |
-| R10 | Reduzir | Implementar mecanismos de proteção contra indisponibilidade. |
-| R11 | Reduzir | Criar contingência para falhas da API de mapas. |
-| R12 | Reduzir | Aplicar menor privilégio e controle de acesso por função. |
-| R13 | Reduzir | Validar permissões e perfil no servidor. |
+Da mesma forma, nenhum risco foi classificado como **Aceitar**, pois todos apresentam potencial para comprometer a segurança, a disponibilidade ou a confiabilidade do sistema. Dessa forma, todos os riscos identificados deverão receber medidas de redução compatíveis com sua criticidade.
 
-Não foi escolhida a estratégia de aceitar os riscos críticos. A aceitação somente seria considerada para riscos de baixo impacto após análise formal, aprovação do responsável pelo risco e definição de data para revisão.
 
 ## 14.2 Funções do NIST CSF 2.0
 
