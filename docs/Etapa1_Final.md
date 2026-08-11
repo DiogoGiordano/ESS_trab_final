@@ -167,6 +167,9 @@ A modelagem de ameaças foi realizada utilizando o modelo **STRIDE**, consideran
 | T10 | Denial of Service      | Servidor da aplicação     | Atacante realiza um ataque de negação de serviço, sobrecarregando o servidor e impedindo o acesso à plataforma.                   | Indisponibilidade do sistema.                                     |
 | T11 | Denial of Service      | API de Mapas              | Atacante sobrecarrega ou interrompe o acesso à API de mapas, impedindo o cálculo de rotas.                                        | Dificuldade ou impossibilidade de iniciar corridas.               |
 | T12 | Elevation of Privilege | Painel administrativo     | Usuário comum explora uma falha de autorização e obtém privilégios administrativos.                                               | Controle indevido da plataforma e acesso a informações restritas. |
+| T13 | Tampering              | Corrida                   | Atacante explora uma falha de concorrência ou validação para associar uma mesma corrida a mais de um motorista ou alterar indevidamente a associação entre passageiro, motorista e corrida. | Comprometimento da integridade da corrida e conflitos entre usuários. |
+| T14 | Elevation of Privilege | Funcionalidades de corrida | Usuário autenticado explora uma falha de autorização para executar funcionalidades destinadas exclusivamente ao outro perfil, como um motorista solicitar uma corrida ou um passageiro aceitar uma corrida. | Execução de operações não autorizadas e comprometimento do controle de acesso. |
+
 
 # 5. Casos de abuso
 
