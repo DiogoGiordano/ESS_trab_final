@@ -387,37 +387,36 @@ A modelagem de ameaças foi realizada utilizando o modelo **STRIDE**, consideran
 
 ---
 
-## CA08 — Acesso indevido à corrida de outro passageiro
+## CA08 — Passageiro executando funcionalidades exclusivas de motorista
 
-**Ator:** Usuário malicioso
+**Ator:** Passageiro malicioso
 
-**Objetivo:** Acessar informações de uma corrida pertencente a outro passageiro devido a uma falha na associação ou autorização das viagens.
+**Objetivo:** executar funcionalidades destinadas exclusivamente ao motorista.
 
 ### Condições
 
-* Falha na validação da autorização para acesso às corridas.
-* Identificador da corrida pode ser utilizado diretamente nas requisições.
-* O sistema não verifica corretamente se a corrida pertence ao usuário autenticado.
+* usuário autenticado como passageiro;
+* falha na autorização baseada no perfil;
+* API aceita requisições sem verificar adequadamente o papel do usuário
 
 ### Fluxo
 
-1. O usuário acessa sua conta normalmente.
-2. Identifica ou obtém o identificador de uma corrida pertencente a outro passageiro.
-3. Envia uma requisição à API utilizando o identificador da corrida.
-4. O sistema não verifica corretamente a associação entre a corrida e o usuário autenticado.
-5. O sistema retorna informações da corrida pertencente a outro passageiro.
-6. O usuário obtém dados como origem, destino, horário ou status da viagem.
+1. Passageiro autentica no sistema.
+2. Identifica uma funcionalidade destinada ao motorista.
+3. Envia diretamente uma requisição à API.
+4. Explora a falha de autorização.
+5. Sistema aceita a operação.
+6. Passageiro passa a executar uma função exclusiva de motorista.
 
 ### Impacto
 
-* Violação da privacidade dos passageiros.
-* Exposição de informações sobre viagens.
-* Possível exposição de dados de localização.
-* Comprometimento da confidencialidade das informações.
+* execução de operações não autorizadas;
+* comprometimento do controle de acesso;
+* possível impacto na integridade das corridas.
 
 ### STRIDE
 
-* **Information Disclosure**
+* **Elevation of Privilege**
 
 
 # Considerações finais
