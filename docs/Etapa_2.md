@@ -71,8 +71,8 @@ Cada ameaça relevante da Etapa 1 originou pelo menos um risco.
 | R10 | T10 — Denial of Service | Um ataque DDoS torna os servidores do Move Fácil indisponíveis. | Exposição dos servidores e ausência de mecanismos suficientes de proteção contra sobrecarga. | 3 | 4 | 12 | Crítico |
 | R11 | T11 — Denial of Service | A API de mapas sofre sobrecarga e deixa de responder corretamente. | Dependência de serviço externo e ausência de mecanismos adequados de contingência. | 3 | 3 | 9 | Alto |
 | R12 | T12 — Elevation of Privilege | Um usuário comum obtém privilégios administrativos e passa a controlar funções restritas. | Falhas no controle de acesso e na validação das permissões. | 2 | 4 | 8 | Alto |
-| R13 | T13 — Tampering | Dois motoristas são associados à mesma corrida devido a uma falha de concorrência ou validação do estado da viagem. | 2 | 3 | 6 | Médio |
-| R14 | T14 — Elevation of Privilege | Um passageiro explora uma falha de autorização e obtém acesso a funcionalidades exclusivas de motorista. | 3 | 3 | 9 | Alto |
+| R13 | T13 — Tampering | Dois motoristas são associados à mesma corrida devido a uma falha de concorrência ou validação do estado da viagem. | Falha no controle de concorrência ou na validação do estado da corrida durante o processamento simultâneo. | 3 | 3 | 9 | Alto |
+| R14 | T14 — Elevation of Privilege | Um passageiro explora uma falha de autorização e obtém acesso a funcionalidades exclusivas de motorista. | Falha na validação do perfil e das permissões associadas ao usuário. | 3 | 3 | 9 | Alto |
 
 ### 13.4.1 Relação entre ameaça, vulnerabilidade, ataque e risco
 
@@ -257,20 +257,35 @@ Um usuário com privilégios administrativos poderia gerenciar contas, dados e c
 
 O impacto é muito alto, embora a exploração dependa de uma vulnerabilidade específica.
 
-### R13 — Passageiro obtendo privilégios de motorista
+### R13 — Aceitação simultânea da mesma corrida por dois motoristas
 
 **Probabilidade: 3 — Média-alta**
 
-O risco pode ocorrer caso a aplicação confie excessivamente nas informações fornecidas pelo cliente para definir o perfil do usuário.
+A ocorrência depende de uma falha específica no controle de concorrência ou na validação do estado da corrida. Embora o sistema possa receber solicitações simultâneas de diferentes motoristas, a associação indevida da mesma corrida a mais de um motorista exige que as requisições sejam processadas de forma incorreta. Dessa forma, o evento é plausível em situações de concorrência, mas depende de uma condição técnica específica para ocorrer.
 
 **Impacto: 3 — Alto**
 
-O usuário poderia utilizar funcionalidades que não deveria possuir, afetando a segurança e o funcionamento da plataforma.
+A associação de uma mesma corrida a dois motoristas pode causar inconsistências nos dados da viagem, conflitos entre passageiros e motoristas, registros incorretos e possíveis problemas de cobrança ou execução da corrida.
 
 **Pontuação: 9 — Alto**
 
-A possibilidade de acesso indevido a funcionalidades específicas torna esse risco relevante.
+A combinação entre uma possibilidade relevante de ocorrência e consequências significativas para a integridade e o funcionamento das corridas justifica a classificação como risco alto.
 
+
+
+### R14 — Passageiro obtendo privilégios de motorista
+
+**Probabilidade: 3 — Média-alta**
+
+A ocorrência depende de uma falha de autorização ou de validação do perfil do usuário. Embora o sistema deva restringir as funcionalidades de acordo com o perfil autenticado, uma implementação inadequada dessas verificações pode permitir que um passageiro tente executar operações destinadas exclusivamente aos motoristas. O evento é plausível, mas depende da existência de uma falha específica no controle de acesso.
+
+**Impacto: 3 — Alto**
+
+O acesso indevido a funcionalidades de motorista pode permitir a execução de operações não autorizadas, comprometer o controle de acesso e afetar o funcionamento das corridas e a integridade das informações do sistema.
+
+**Pontuação: 9 — Alto**
+
+A possibilidade de exploração de uma falha de autorização, combinada com o impacto sobre o controle de acesso e as funcionalidades da plataforma, justifica a classificação como risco alto.
 
 ## 13.6 Priorização
 
@@ -286,19 +301,20 @@ A prioridade considera:
 
 | Prioridade | Risco | Pontuação | Nível | Motivo |
 |---:|---|---:|---|---|
-| 1 | R01 — Motorista falso | 12 | Crítico | Pode colocar passageiros em risco físico. |
-| 2 | R08 — Vazamento de localização | 12 | Crítico | Pode comprometer diretamente a segurança física. |
-| 3 | R07 — Vazamento de dados pessoais | 12 | Crítico | Pode afetar muitos usuários e informações sensíveis. |
-| 4 | R02 — Roubo de conta | 12 | Crítico | Pode permitir uso indevido da conta e meios de pagamento. |
-| 5 | R03 — Alteração da tarifa | 12 | Crítico | Pode causar fraude e prejuízo financeiro. |
-| 6 | R10 — DDoS | 12 | Crítico | Pode interromper completamente o serviço. |
-| 7 | R05 — Repúdio de corrida | 9 | Alto | Compromete a rastreabilidade das transações. |
-| 8 | R11 — Sobrecarga da API de mapas | 9 | Alto | Pode impedir a realização das corridas. |
-| 9 | R13 — Passageiro como motorista | 9 | Alto | Permite utilização indevida de funcionalidades. |
-| 10 | R09 — Vazamento de pagamentos | 8 | Alto | Pode causar fraudes financeiras. |
-| 11 | R12 — Privilégios administrativos | 8 | Alto | Pode proporcionar controle indevido da plataforma. |
-| 12 | R04 — Alteração do histórico | 6 | Médio | Compromete registros e auditoria. |
-| 13 | R06 — Repúdio de avaliação | 4 | Médio | Afeta principalmente a rastreabilidade das avaliações. |
+| 1 | R01 — Motorista falso | 12 | Crítico | Pode colocar passageiros em risco físico e comprometer a confiabilidade do processo de cadastro de motoristas. |
+| 2 | R08 — Vazamento de localização | 12 | Crítico | Pode comprometer diretamente a privacidade e a segurança física dos usuários. |
+| 3 | R07 — Vazamento de dados pessoais | 12 | Crítico | Pode afetar grande quantidade de usuários e expor informações pessoais sensíveis. |
+| 4 | R02 — Roubo de conta | 12 | Crítico | Pode permitir utilização indevida da conta e acesso a funcionalidades e informações associadas ao usuário. |
+| 5 | R03 — Alteração da tarifa | 12 | Crítico | Pode provocar fraude, prejuízo financeiro e comprometimento da integridade das transações. |
+| 6 | R10 — DDoS | 12 | Crítico | Pode interromper completamente a disponibilidade da plataforma. |
+| 7 | R05 — Repúdio de corrida | 9 | Alto | Compromete a rastreabilidade das operações e pode dificultar a resolução de conflitos entre usuários. |
+| 8 | R11 — Sobrecarga da API de mapas | 9 | Alto | Pode prejudicar a execução das corridas e a disponibilidade de funcionalidades dependentes de localização e rotas. |
+| 9 | R14 — Passageiro obtendo privilégios de motorista | 9 | Alto | Permite a execução de funcionalidades não autorizadas e compromete o controle de acesso da plataforma. |
+| 10 | R13 — Associação simultânea da mesma corrida a dois motoristas | 9 | Alto | Pode gerar inconsistências no estado das corridas, conflitos entre motoristas e passageiros e problemas operacionais ou financeiros. |
+| 11 | R09 — Vazamento de pagamentos | 8 | Alto | Pode expor informações financeiras e possibilitar fraudes ou prejuízos aos usuários. |
+| 12 | R12 — Privilégios administrativos | 8 | Alto | Pode permitir o controle indevido de funções administrativas e afetar componentes críticos da plataforma. |
+| 13 | R04 — Alteração do histórico | 6 | Médio | Pode comprometer a integridade dos registros de viagens, embora o impacto seja mais limitado que o dos riscos críticos e altos. |
+| 14 | R06 — Repúdio de avaliação | 4 | Médio | Pode prejudicar a rastreabilidade das avaliações, mas apresenta impacto limitado sobre o funcionamento geral da plataforma. |
 
 Os seis riscos críticos recebem prioridade máxima. Entre os riscos altos, foram priorizados primeiro aqueles que afetam diretamente a operação das corridas e a rastreabilidade. R09 e R12 permanecem relevantes, mas possuem pontuação menor.
 
@@ -309,16 +325,22 @@ Os seis riscos críticos recebem prioridade máxima. Entre os riscos altos, fora
 
 As estratégias de tratamento foram definidas considerando a probabilidade, o impacto e a viabilidade de implementação de controles de segurança para o aplicativo de transporte de passageiros.
 
-| ID | Risco | Estratégia | Justificativa |
-| :-: | -------------------------------------------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| R01 | Acesso indevido à conta de passageiro ou motorista | Reduzir | Implementar autenticação multifator, políticas de senhas fortes, monitoramento de acessos e detecção de logins suspeitos reduz a probabilidade de comprometimento das contas. |
-| R02 | Cadastro de motorista utilizando documentos falsificados | Reduzir | Adotar validação automática de documentos, verificação de identidade e análise manual em casos suspeitos reduz a possibilidade de fraudes no cadastro. |
+| ID  | Risco | Estratégia | Justificativa |
+| --- | ----- | ---------- | ------------- |
+| R01 | Cadastro de motorista utilizando documentos falsificados | Reduzir | Adotar validação automática de documentos, verificação de identidade e análise manual em casos suspeitos reduz a possibilidade de fraudes no cadastro. |
+| R02 | Acesso indevido à conta de passageiro | Reduzir | Implementar autenticação multifator, políticas de senhas fortes, monitoramento de acessos e detecção de logins suspeitos reduz a probabilidade de comprometimento das contas. |
 | R03 | Alteração do valor da corrida | Reduzir | Validar os valores exclusivamente no servidor, utilizar comunicação segura e verificar a integridade das requisições reduz o risco de manipulação dos dados. |
-| R04 | Vazamento de dados pessoais | Reduzir | Utilizar criptografia, controle de acesso, registros de auditoria e proteção do banco de dados reduz a probabilidade de exposição das informações. |
-| R05 | Exposição da localização em tempo real | Reduzir | Proteger a comunicação com criptografia, restringir o acesso às informações de localização e limitar sua retenção reduz o risco de exposição dos usuários. |
-| R06 | Indisponibilidade do aplicativo (DoS) | Reduzir | Implementar mecanismos de proteção contra ataques de negação de serviço, balanceamento de carga e monitoramento contínuo contribui para aumentar a disponibilidade da plataforma. |
-| R07 | Obtenção de privilégios administrativos | Reduzir | Aplicar controle de acesso baseado em papéis, revisão periódica de permissões e autenticação reforçada reduz o risco de elevação indevida de privilégios. |
-| R08 | Negação de operações realizadas | Reduzir | Implementar registros de auditoria, armazenamento seguro de logs e rastreabilidade das operações permite comprovar as ações realizadas pelos usuários. |
+| R04 | Alteração do histórico de viagens | Reduzir | Restringir permissões de alteração, proteger os registros e manter mecanismos de auditoria reduz o risco de modificação indevida do histórico. |
+| R05 | Negação de uma corrida | Reduzir | Implementar registros confiáveis de autenticação, solicitação, aceite e conclusão das viagens permite comprovar as operações realizadas pelos usuários. |
+| R06 | Negação de uma avaliação | Reduzir | Registrar o usuário, a viagem, a data e o horário associados à avaliação permite comprovar sua autoria e aumenta a rastreabilidade das operações. |
+| R07 | Vazamento de dados pessoais | Reduzir | Utilizar criptografia, controle de acesso, registros de auditoria e proteção do banco de dados reduz a probabilidade de exposição das informações. |
+| R08 | Exposição da localização em tempo real | Reduzir | Proteger a comunicação com criptografia, restringir o acesso às informações de localização e limitar sua retenção reduz o risco de exposição dos usuários. |
+| R09 | Vazamento de dados de pagamento | Reduzir | Restringir o acesso aos dados financeiros, armazenar somente as informações necessárias e monitorar acessos reduz a possibilidade de exposição e fraude. |
+| R10 | Indisponibilidade do aplicativo (DoS) | Reduzir | Implementar mecanismos de proteção contra ataques de negação de serviço, balanceamento de carga e monitoramento contínuo contribui para aumentar a disponibilidade da plataforma. |
+| R11 | Sobrecarga da API de mapas | Reduzir | Implementar rate limiting, tratamento de erros, cache quando aplicável e mecanismos de contingência reduz os impactos da indisponibilidade do serviço externo. |
+| R12 | Obtenção de privilégios administrativos | Reduzir | Aplicar controle de acesso baseado em papéis, revisão periódica de permissões e autenticação reforçada reduz o risco de elevação indevida de privilégios. |
+| R13 | Associação simultânea da mesma corrida a dois motoristas | Reduzir | Implementar mecanismos de controle de concorrência, validação transacional do estado da corrida e garantia de exclusividade na associação do motorista reduz o risco de inconsistências e conflitos. |
+| R14 | Passageiro obtendo privilégios de motorista | Reduzir | Validar o perfil e as permissões no servidor, aplicar controle de acesso baseado em papéis e impedir alterações indevidas do tipo de usuário reduz o risco de execução de funcionalidades não autorizadas. |
 
 Neste trabalho, não foi adotada a estratégia de **Evitar**, pois os riscos estão associados a funcionalidades essenciais do aplicativo. Também não foi utilizada a estratégia de **Compartilhar**, uma vez que a responsabilidade pela proteção das informações permanece com a plataforma, mesmo quando existem serviços externos, como APIs de mapas e gateways de pagamento.
 
@@ -357,7 +379,7 @@ Portanto, não basta escrever apenas "aplicar o NIST"; cada função deve ser re
 | R02 — Roubo de conta | X | X | X | X | X | X |
 | R03 — Alteração da tarifa | | X | X | X | X | X |
 | R04 — Alteração do histórico | X | X | X | X | X | X |
-| R05 — Repúdio de corrida | X | X | X | X | X | X |
+| R05 — Repúdio de corrida | X | X | X | X | X | |
 | R06 — Repúdio de avaliação | | X | X | X | X | |
 | R07 — Vazamento de dados pessoais | X | X | X | X | X | X |
 | R08 — Vazamento de localização | X | X | X | X | X | X |
@@ -365,7 +387,8 @@ Portanto, não basta escrever apenas "aplicar o NIST"; cada função deve ser re
 | R10 — DDoS | X | X | X | X | X | X |
 | R11 — Sobrecarga da API de mapas | | X | X | X | X | X |
 | R12 — Privilégios administrativos | X | X | X | X | X | X |
-| R13 — Passageiro como motorista | X | X | X | X | X | |
+| R13 — Associação simultânea da mesma corrida a dois motoristas | | X | X | X | X | X |
+| R14 — Passageiro obtendo privilégios de motorista | X | X | X | X | X | |
 
 As marcações representam as funções relevantes para governança, identificação, proteção, detecção, resposta ou recuperação de cada risco. Elas não significam que todas as funções possuem o mesmo peso em cada caso.
 
@@ -385,7 +408,8 @@ As marcações representam as funções relevantes para governança, identifica�
 | R10 | Reduzir | Proteção contra DDoS; rate limiting; monitoramento de disponibilidade e escalabilidade. | Govern, Identify, Protect, Detect, Respond, Recover | Infraestrutura | Testes de carga controlados; monitoramento; registros de indisponibilidade. |
 | R11 | Reduzir | Rate limiting; tratamento de erros; cache quando aplicável; mecanismo de contingência para indisponibilidade da API. | Identify, Protect, Detect, Respond, Recover | Desenvolvimento e infraestrutura | Testes de indisponibilidade; logs da API; testes de contingência. |
 | R12 | Reduzir | RBAC; menor privilégio; MFA para administradores; revisão periódica das permissões. | Govern, Identify, Protect, Detect, Respond, Recover | Desenvolvimento e administração | Testes de autorização; revisão de permissões; logs administrativos. |
-| R13 | Reduzir | Validar o perfil no servidor; controlar permissões; impedir alteração direta do tipo de usuário. | Govern, Identify, Protect, Detect, Respond | Desenvolvimento | Testes de API; tentativa de alteração de perfil; logs de autorização. |
+| R13 | Reduzir | Implementar controle de concorrência, validação transacional do estado da corrida e garantia de exclusividade na associação de um motorista à corrida. | Identify, Protect, Detect, Respond | Desenvolvimento e infraestrutura | Testes de concorrência; testes de API; verificação do estado das corridas; análise dos logs de associação. |
+| R14 | Reduzir | Implementar controle de acesso baseado em papéis, validar o perfil e as permissões no servidor e impedir que o usuário altere diretamente seu tipo de perfil. | Govern, Identify, Protect, Detect, Respond | Desenvolvimento | Testes de autorização; tentativas de acesso a funcionalidades de motorista por passageiros; análise dos logs de autorização. |
 
 Os controles são específicos e observáveis. Cada um indica onde será aplicado, qual problema pretende reduzir, quem será responsável e como sua existência ou funcionamento poderá ser verificado.
 
@@ -395,9 +419,9 @@ A ordem de implementação considera principalmente os riscos críticos e altos,
 
 ### 1. Proteção de identidades e autorização
 
-**Riscos:** R01, R02, R12 e R13.
+**Riscos:** R01, R02, R12 e R14.
 
-Primeiro devem ser implementados controles de autenticação, validação de identidade, MFA e autorização. Esses mecanismos formam uma base para impedir que usuários obtenham ou utilizem privilégios indevidos.
+Primeiro devem ser implementados controles de autenticação, validação de identidade, MFA e autorização. Esses mecanismos formam uma base para impedir que usuários não autorizados obtenham ou utilizem privilégios indevidos.
 
 ### 2. Proteção de dados pessoais e localização
 
@@ -405,11 +429,11 @@ Primeiro devem ser implementados controles de autenticação, validação de ide
 
 Depois devem ser protegidos os dados pessoais e a localização, pois esses ativos podem gerar impactos graves de privacidade e segurança física.
 
-### 3. Integridade das transações
+### 3. Integridade das transações e das corridas
 
-**Riscos:** R03 e R09.
+**Riscos:** R03, R09 e R13.
 
-A validação das tarifas e a proteção das informações financeiras devem ser tratadas em seguida, reduzindo a possibilidade de fraude e prejuízo financeiro.
+A validação das tarifas, a proteção das informações financeiras e o controle de concorrência das corridas devem ser tratados em seguida, reduzindo a possibilidade de fraude, inconsistências e conflitos durante o processamento das operações.
 
 ### 4. Disponibilidade
 
@@ -429,53 +453,37 @@ A ordem poderá ser revisada nas próximas etapas conforme os resultados dos tes
 
 ## 14.6 Estimativa do risco residual
 
-O risco residual é uma estimativa do nível esperado após a implementação e funcionamento adequado dos controles propostos.
+O risco residual representa o nível de risco esperado após a implementação e o funcionamento adequado dos controles propostos. Como os controles ainda não foram implementados e validados, os valores apresentados são estimativas e deverão ser revisados após a execução dos testes de segurança e a obtenção das respectivas evidências.
 
 | Risco | Nível inicial | Nível residual esperado | Condição para aceitar o residual |
 |---|---|---|---|
-| R01 — Motorista falso | Crítico | Médio | Validação documental funcionando, revisão dos cadastros e auditoria periódica. |
-| R02 — Roubo de conta | Crítico | Médio | MFA, monitoramento de acessos e bloqueio de atividades suspeitas funcionando. |
-| R03 — Alteração da tarifa | Crítico | Baixo | Cálculo validado no servidor e testes de integridade das transações. |
-| R04 — Alteração do histórico | Médio | Baixo | Controle de acesso e auditoria dos registros implementados e testados. |
-| R05 — Repúdio de corrida | Alto | Baixo | Registros completos e confiáveis das solicitações e viagens. |
-| R06 — Repúdio de avaliação | Médio | Baixo | Registro de autoria, data e vínculo com a viagem. |
-| R07 — Vazamento de dados pessoais | Crítico | Médio | Controle de acesso, monitoramento e auditoria do banco de dados. |
-| R08 — Vazamento de localização | Crítico | Médio | Restrição de acesso e monitoramento das consultas de localização. |
-| R09 — Vazamento de pagamentos | Alto | Médio | Controle de acesso e monitoramento das informações financeiras. |
-| R10 — DDoS | Crítico | Médio | Proteção contra DDoS, monitoramento e capacidade de recuperação testada. |
-| R11 — Sobrecarga da API de mapas | Alto | Baixo | Contingência funcionando e monitoramento da disponibilidade da API. |
-| R12 — Privilégios administrativos | Alto | Baixo | Menor privilégio, MFA e revisão periódica das permissões. |
-| R13 — Passageiro como motorista | Alto | Baixo | Validação do perfil no servidor e controle de autorização testados. |
+| R01 — Motorista falso | Crítico | Médio | Validação documental funcionando, verificação de identidade, revisão dos cadastros e auditoria periódica. |
+| R02 — Roubo de conta | Crítico | Médio | MFA implementado, monitoramento de acessos, políticas de senha e bloqueio de atividades suspeitas funcionando. |
+| R03 — Alteração da tarifa | Crítico | Baixo | Cálculo e validação da tarifa realizados no servidor, com testes de integridade das transações. |
+| R04 — Alteração do histórico | Médio | Baixo | Controle de acesso, proteção dos registros e auditoria das alterações implementados e testados. |
+| R05 — Repúdio de corrida | Alto | Baixo | Registros completos e confiáveis das solicitações, aceite, execução e conclusão das viagens. |
+| R06 — Repúdio de avaliação | Médio | Baixo | Registro de autoria, data, horário e vínculo da avaliação com a viagem correspondente. |
+| R07 — Vazamento de dados pessoais | Crítico | Médio | Criptografia, controle de acesso, proteção do banco de dados, auditoria e monitoramento implementados e testados. |
+| R08 — Vazamento de localização | Crítico | Médio | Controle rigoroso de acesso, proteção da comunicação, limitação da retenção e monitoramento das consultas implementados. |
+| R09 — Vazamento de pagamentos | Alto | Médio | Restrição de acesso aos dados financeiros, armazenamento mínimo necessário, proteção da comunicação e monitoramento implementados. |
+| R10 — DDoS | Crítico | Médio | Proteção contra DDoS, rate limiting, monitoramento, escalabilidade e mecanismos de contingência funcionando. |
+| R11 — Sobrecarga da API de mapas | Alto | Baixo | Rate limiting, tratamento de erros, cache quando aplicável e mecanismo de contingência testados. |
+| R12 — Privilégios administrativos | Alto | Médio | RBAC, princípio do menor privilégio, MFA para administradores e revisão periódica das permissões funcionando. |
+| R13 — Associação simultânea da mesma corrida a dois motoristas | Alto | Baixo | Controle de concorrência, validação transacional do estado da corrida e garantia de exclusividade testados com requisições simultâneas. |
+| R14 — Passageiro obtendo privilégios de motorista | Alto | Baixo | Controle de acesso baseado em papéis, validação das permissões no servidor e testes de tentativa de acesso não autorizado realizados com sucesso. |
 
 Os níveis residuais são **estimativas**. Não se pode afirmar que um risco já foi reduzido apenas porque um controle foi proposto. A redução somente poderá ser confirmada após implementação, testes e obtenção das evidências correspondentes.
 
 # 15. Considerações finais
 
-A análise da Etapa 2 transformou as ameaças identificadas pela modelagem STRIDE em riscos que podem ser avaliados, comparados e tratados.
+A análise da Etapa 2 transformou as ameaças identificadas na modelagem STRIDE em riscos que podem ser avaliados, priorizados e tratados de forma estruturada. Ao todo, foram identificados 14 riscos associados às ameaças analisadas, considerando aspectos de autenticação, integridade das operações, privacidade, disponibilidade, rastreabilidade e controle de acesso.
 
-Os riscos mais importantes foram os relacionados ao cadastro de motoristas falsos, exposição da localização, vazamento de dados pessoais, roubo de contas, alteração de tarifas e indisponibilidade do serviço. Esses riscos receberam prioridade por apresentarem pontuação crítica e/ou consequências relevantes para a segurança física, privacidade, finanças e continuidade do sistema.
+Os riscos classificados como críticos foram relacionados ao cadastro de motoristas utilizando documentos falsificados, comprometimento de contas, alteração de tarifas, exposição de dados pessoais, exposição da localização em tempo real e indisponibilidade da plataforma por ataques de negação de serviço. Esses riscos receberam prioridade devido ao potencial de afetar a segurança física dos usuários, a privacidade, as transações financeiras e a continuidade do serviço. Entre os riscos altos, também se destacaram a negação de corridas, a sobrecarga da API de mapas, a associação simultânea da mesma corrida a dois motoristas, o acesso indevido a funcionalidades de motorista, o vazamento de dados de pagamento e a obtenção indevida de privilégios administrativos.
 
-A estratégia predominante foi **Reduzir**, pois existem controles técnicos e administrativos capazes de diminuir a probabilidade ou o impacto dos eventos. A aceitação foi evitada para os riscos críticos porque suas consequências podem ser graves.
+A inclusão dos riscos relacionados à concorrência das corridas e à elevação de privilégios entre perfis reforçou a necessidade de controles específicos para a integridade das operações e para a autorização no servidor. Para o primeiro caso, destacam-se mecanismos de controle de concorrência, validação transacional e garantia de exclusividade na associação de uma corrida. Para o segundo, são necessários controle de acesso baseado em papéis, validação do perfil e das permissões no servidor e testes de autorização.
 
-As funções mais relevantes do NIST CSF variam conforme o risco. **Govern** e **Identify** fornecem a base para conhecer e administrar os riscos; **Protect** concentra os controles preventivos; **Detect** permite identificar atividades suspeitas; **Respond** orienta a contenção e o tratamento de incidentes; e **Recover** apoia a restauração dos serviços e dados.
+A estratégia predominante foi **Reduzir**, uma vez que foram identificados controles técnicos e administrativos capazes de diminuir a probabilidade ou o impacto dos riscos. Não foram adotadas as estratégias **Evitar**, **Compartilhar** ou **Aceitar**, considerando que os riscos estão relacionados a funcionalidades essenciais da plataforma e que existem medidas de segurança aplicáveis para reduzir sua exposição.
 
-Entre os controles essenciais estão:
+O mapeamento para o NIST CSF 2.0 permitiu relacionar os riscos às funções de Govern, Identify, Protect, Detect, Respond e Recover, enquanto o plano de tratamento definiu controles, responsáveis e formas de verificação. A estimativa de risco residual indica redução esperada para todos os riscos após a implementação dos controles, embora esses valores ainda sejam estimativas e dependam de validação por meio de testes e evidências.
 
-- autenticação multifator;
-- validação de identidade e documentos;
-- controle de acesso baseado em funções;
-- princípio do menor privilégio;
-- validação das operações no servidor;
-- proteção dos dados pessoais e de localização;
-- registros de auditoria;
-- monitoramento de autenticação e acesso;
-- proteção contra DDoS;
-- rate limiting;
-- mecanismos de contingência.
-
-As principais dificuldades da análise foram diferenciar corretamente ameaça, vulnerabilidade, ataque e risco, além de definir probabilidades e impactos coerentes com o contexto do Move Fácil.
-
-A avaliação possui limitações porque os controles ainda não foram implementados e, portanto, o risco residual é apenas uma estimativa. A efetividade deverá ser confirmada posteriormente por testes e evidências.
-
-Nas próximas etapas deverão ser detalhadas a implementação dos controles, a execução dos testes de segurança, a coleta de evidências, a revisão dos riscos residuais e a atualização do plano conforme os resultados obtidos.
-
+Entre as principais limitações da análise está o fato de os controles propostos ainda não terem sido implementados e validados. Dessa forma, a efetividade das medidas e os níveis de risco residual deverão ser revisados após a implementação, execução dos testes de segurança e análise das evidências obtidas. As próximas etapas deverão utilizar esses resultados para atualizar a avaliação e ajustar os controles quando necessário.
