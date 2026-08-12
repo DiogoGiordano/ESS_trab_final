@@ -1,6 +1,6 @@
 # 1. Identificação do sistema
 
-* **Nome do sistema**: App de transporte de passageiros
+* **Nome do sistema**: Move Fácil
 * **Integrantes do grupo**: Diogo Montanha, Ernesto, Micael e Regis
 * **Endereço do repositório**: DiogoGiordano/ESS_trab_final
 * **Justificativa:** A escolha desse domínio se deve à sua ampla utilização e relevância no cenário atual. Sistemas de transporte por aplicativo estão em constante evolução, recebendo novas funcionalidades e adaptações para atender às necessidades dos usuários. Além disso, por se tratar de um sistema que manipula dados pessoais, informações financeiras e localização em tempo real, existe uma ampla variedade de possíveis vulnerabilidades que devem ser consideradas e tratadas durante o desenvolvimento.
