@@ -1,12 +1,5 @@
 ### Testes definidos antes da implementação
 
-| Teste | Entrada ou ação | Resultado esperado |
-|---|---|---|
-| **TS03 — Consulta não autorizada** | Usuário que não participa da corrida tenta consultar a localização em tempo real de outro usuário. | A API recusa com **403 Forbidden**, não retorna a localização e registra o evento sem armazenar a coordenada completa. |
-| **TS04 — Consulta autorizada** | Motorista autorizado consulta a localização do passageiro durante uma corrida ativa. | A API permite o acesso e registra o evento sem expor a coordenada completa no log. |
-
-
-
 ## 21.1 Prática 1 — Controle de autorização no servidor
 
 ### Risco e requisito relacionados
@@ -94,3 +87,80 @@ https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html
 A localização em tempo real deve ser tratada como informação sensível. O sistema não deve disponibilizá-la para usuários sem autorização ou necessidade operacional.
 
 Os logs também não devem armazenar desnecessariamente coordenadas GPS completas, pois podem se tornar uma fonte adicional de exposição de dados.
+
+
+### Testes definidos antes da implementação
+
+| Teste | Entrada ou ação | Resultado esperado |
+|---|---|---|
+| **TS03 — Consulta não autorizada** | Usuário que não participa da corrida tenta consultar a localização em tempo real de outro usuário. | A API recusa com **403 Forbidden**, não retorna a localização e registra o evento sem armazenar a coordenada completa. |
+| **TS04 — Consulta autorizada** | Motorista autorizado consulta a localização do passageiro durante uma corrida ativa. | A API permite o acesso e registra o evento sem expor a coordenada completa no log. |
+
+### Implementação — pseudocódigo
+
+```text
+função consultarLocalizacao(requisicao, corridaId):
+
+    usuario = autenticar(requisicao.token)
+
+    se usuario não estiver autenticado:
+        registrarEvento("consulta de localização sem autenticação")
+        retornar 401
+
+    corrida = buscarCorrida(corridaId)
+
+    se corrida não existir:
+        retornar 404
+
+    se usuario não participa da corrida:
+        registrarEvento(
+            "consulta de localização recusada",
+            usuario.id,
+            corrida.id
+        )
+        retornar 403
+
+    se corrida não estiver ativa:
+        registrarEvento(
+            "consulta de localização fora de corrida ativa",
+            usuario.id,
+            corrida.id
+        )
+        retornar 403
+
+    registrarEvento(
+        "consulta de localização autorizada",
+        usuario.id,
+        corrida.id
+    )
+
+    retornar localizacaoAtual
+```
+
+### Descrição
+
+1. O servidor autentica o usuário que realizou a solicitação.
+2. A existência da corrida é verificada.
+3. O backend verifica se o usuário participa da corrida.
+4. O sistema verifica se a corrida está em um estado que permite o compartilhamento da localização.
+5. Solicitações não autorizadas são recusadas.
+6. Tentativas de acesso são registradas sem armazenar desnecessariamente coordenadas completas.
+7. Somente usuários autorizados durante uma corrida válida recebem a localização.
+
+A autorização deve ser aplicada no servidor. Além disso, os registros de auditoria devem conter somente as informações necessárias para identificar o evento, evitando armazenar coordenadas GPS completas sem necessidade.
+
+### Resultado esperado
+
+- TS03: acesso recusado com `403 Forbidden`.
+- A localização não é retornada para o usuário não autorizado.
+- A tentativa é registrada sem incluir a coordenada GPS completa.
+- TS04: a localização é disponibilizada ao usuário autorizado durante a corrida ativa.
+- A consulta autorizada é registrada sem exposição desnecessária de dados sensíveis.
+
+### Referências OWASP
+
+- **OWASP Authorization Cheat Sheet**  
+  https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html
+
+- **OWASP Logging Cheat Sheet**  
+  https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html
