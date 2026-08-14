@@ -54,6 +54,15 @@ Os três alertas analisados foram:
 * **A02 — Off-site redirect**
 * **A03 — Missing Anti-clickjacking Header**
 
+
+### Resumo dos alertas analisados
+
+| ID | Alerta ou achado | Evidência | Possível impacto | Relação com OWASP ou CWE | Correção proposta |
+|---|---|---|---|---|---|
+| **A01** | Possível Injeção SQL no parâmetro `q` da busca de produtos | `evidencias/etapa-5/capturas-de-tela/A01-injecao-sql.png` | Manipulação de consultas ao banco de dados, podendo causar acesso indevido, exposição ou alteração de informações, dependendo da vulnerabilidade existente | **CWE-89 — Improper Neutralization of Special Elements used in an SQL Command** | Utilizar consultas parametrizadas, validar entradas no servidor, evitar concatenação de strings em comandos SQL e aplicar menor privilégio no acesso ao banco |
+| **A02** | Possível Off-site Redirect no parâmetro `to` | `evidencias/etapa-5/capturas-de-tela/A02-off-site-redirect.png` | Redirecionamento de usuários para sites externos não confiáveis, podendo facilitar phishing ou engenharia social | **CWE-601 — URL Redirection to Untrusted Site** | Restringir redirecionamentos a URIs relativas ou destinos previamente autorizados e validar o destino antes de realizar o redirecionamento |
+| **A03** | Ausência de proteção Anti-clickjacking | `evidencias/etapa-5/capturas-de-tela/A03-anti-clickjacking.png` | A aplicação pode ser incorporada em páginas externas e induzir o usuário a interagir com elementos sem perceber, dependendo do contexto | **CWE-1021 — Improper Restriction of Rendered UI Layers or Frames** | Configurar `Content-Security-Policy` com `frame-ancestors` e/ou `X-Frame-Options` com `SAMEORIGIN` ou `DENY`, conforme a necessidade da aplicação |
+
 ---
 
 ## 25.1 A01 — Injeção SQL
@@ -94,7 +103,9 @@ As principais medidas recomendadas pelo próprio ZAP são:
 
 A utilização de consultas parametrizadas é especialmente importante porque separa os dados fornecidos pelo usuário da estrutura do comando SQL.
 
-**Evidência:** `evidencias/etapa-5/A01-injecao-sql.png`
+**Evidência:**
+
+![Alerta de possível injeção SQL identificado pelo OWASP ZAP](capturas-de-tela/A01-injecao-sql.png)
 
 ---
 
@@ -135,7 +146,9 @@ Como medida de segurança, a aplicação deve:
 * validar o destino antes de enviar uma resposta de redirecionamento HTTP, como `302`;
 * impedir que qualquer URL fornecida livremente pelo usuário seja utilizada como destino.
 
-**Evidência:** `evidencias/etapa-5/A02-off-site-redirect.png`
+**Evidência:** 
+
+![Alerta de possível Off-site Redirect identificado pelo OWASP ZAP](capturas-de-tela/A02-off-site-redirect.png)
 
 ---
 
@@ -191,7 +204,9 @@ X-Frame-Options: DENY
 
 Outra alternativa é utilizar a diretiva `frame-ancestors` da Content Security Policy para controlar quais origens podem incorporar a página.
 
-**Evidência:** `evidencias/etapa-5/A03-anti-clickjacking.png`
+**Evidência:**
+
+![Alerta de ausência de proteção Anti-clickjacking identificado pelo OWASP ZAP](capturas-de-tela/A03-anti-clickjacking.png)
 
 ---
 
