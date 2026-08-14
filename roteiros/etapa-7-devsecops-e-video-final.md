@@ -189,3 +189,43 @@ O objetivo dessa etapa foi demonstrar como ferramentas automatizadas podem auxil
    * testes e monitoramento contínuos.
 
 ---
+
+# 35. O que o grupo aprendeu
+
+Ao longo das etapas do trabalho, o grupo compreendeu que a segurança de software não deve ser tratada apenas no final do desenvolvimento, mas deve acompanhar todo o ciclo de vida do sistema.
+
+A modelagem de ameaças com STRIDE permitiu identificar situações de abuso antes da implementação. A análise de riscos mostrou a importância de avaliar probabilidade e impacto para definir quais problemas devem receber maior prioridade.
+
+A definição de requisitos e decisões de arquitetura demonstrou como os riscos identificados podem ser transformados em controles concretos, como autenticação, autorização baseada em funções, menor privilégio, validações no servidor e proteção de informações sensíveis.
+
+As etapas de código seguro e verificação mostraram também a importância de definir testes de segurança, utilizar referências como as recomendações da OWASP e empregar ferramentas automatizadas, como o OWASP ZAP, sem considerar automaticamente todos os alertas como vulnerabilidades confirmadas.
+
+Por fim, a etapa de monitoramento demonstrou que mesmo sistemas com mecanismos preventivos precisam registrar eventos e detectar comportamentos suspeitos. Com o pipeline DevSecOps, essas atividades passam a fazer parte de um processo contínuo de desenvolvimento, verificação, operação e melhoria.
+
+---
+
+# 36. Limitações
+
+O trabalho possui algumas limitações decorrentes do escopo acadêmico da atividade.
+
+O sistema completo do Move Fácil não foi implementado, portanto parte dos controles de segurança, requisitos e decisões arquiteturais foi representada por meio de diagramas, pseudocódigo e descrições.
+
+O pipeline DevSecOps proposto também é conceitual e não foi implementado em uma ferramenta de integração e entrega contínua.
+
+A verificação dinâmica foi realizada utilizando o OWASP ZAP sobre o OWASP Juice Shop executado localmente, e os alertas encontrados foram analisados sem realizar exploração completa das possíveis vulnerabilidades.
+
+Além disso, as regras de detecção definidas representam exemplos de monitoramento que precisariam ser ajustados e validados de acordo com o comportamento real do sistema em um ambiente de produção.
+
+---
+
+# 37. Conclusão
+
+O desenvolvimento das etapas permitiu acompanhar a evolução da segurança do Move Fácil desde a identificação inicial de ameaças até a proposta de monitoramento e integração das práticas em um pipeline DevSecOps.
+
+A aplicação de STRIDE e da análise de riscos permitiu identificar e priorizar problemas de segurança. A partir desses resultados foram definidos requisitos, controles e decisões arquiteturais, posteriormente relacionados a práticas de implementação segura e testes de segurança.
+
+A utilização do OWASP ZAP demonstrou a importância da verificação de vulnerabilidades e da interpretação dos resultados de ferramentas automatizadas. Já as regras de monitoramento e detecção mostraram a necessidade de observar continuamente o comportamento do sistema durante sua operação.
+
+O pipeline DevSecOps proposto integra essas atividades ao ciclo de desenvolvimento, estabelecendo condições de segurança que devem ser atendidas antes que uma versão avance para as próximas etapas.
+
+Dessa forma, o trabalho demonstrou que a segurança deve ser considerada de maneira contínua, desde o planejamento e desenvolvimento até a implantação, monitoramento e resposta a possíveis incidentes.
